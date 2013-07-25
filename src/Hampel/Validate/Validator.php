@@ -59,24 +59,55 @@ class Validator
 	 * Domain name (internationalized, strict)
 	 * Allow internationalized domains using punycode notation, as well as regular domain names
 	 * Use lookahead to check that each part of the domain name is 63 characters or less"
+	 *
+	 * Pass in the array returned by getTLDs() to the $tlds parameter to validate the domain against a list of valid TLDs
+	 *
+	 * @param $value string		the value to check
+	 * @param $tlds array		optional array of TLDs to validate against (must be lowercase)
+	 *
+	 * @return bool
 	 */
-	public static function isDomain($value)
+	public static function isDomain($value, array $tlds = array())
 	{
-		if (preg_match("/\b((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}\b/ix", $value)) return true;
-		else return false;
+		if (!preg_match("/\b((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}\b/ix", $value)) return false;
+
+		if (!empty($tlds))
+		{
+			return self::isTLD($value, $tlds);
+		}
+		else return true;
+	}
+
+	/**
+	 * is the supplied TLD valid according to the supplied list of TLDs?
+	 * Note that this will also return true for any string with a valid TLD on the end - but does not validate the domain itself
+	 *
+	 * @param $value
+	 * @param array $tlds
+	 *
+	 * @return bool
+	 */
+	public static function isTLD($value, array $tlds)
+	{
+		if (empty($value) OR empty($tlds)) return false; // don't bother if no data passed
+
+		if (strrpos($value, ".") === false) $tld = $value; // no . found in supplied value - assume it is already a TLD
+		else $tld = substr(strrchr(strtolower($value), "."), 1); // extract the TLD from the supplied domain
+
+		if (empty($tld)) return false; // didn't end up with anything usable
+
+		return in_array($tld, $tlds);
 	}
 
 	/**
 	 * Uses data from http://data.iana.org/TLD/tlds-alpha-by-domain.txt
 	 *
-	 * @param $value
+	 * @param $local_copy_only bool	use the locally stored version of the TLD file, which may not be as up to date, but avoids network traffic
 	 *
-	 * @return bool
+	 * @return array of TLD strings
 	 */
-	public static function isDomainWithValidTLD($value, $local_copy_only = false)
+	public static function getTLDs($local_copy_only = false)
 	{
-		if (!self::isDomain($value)) return false; // fail quickly if it isn't a valid domain to start with
-
 		$tlds = array();
 		$tld_file = false;
 
@@ -93,7 +124,7 @@ class Validator
 			$tld_file = file_get_contents(__DIR__ . '/tlds-alpha-by-domain.txt');
 		}
 
-		if ($tld_file === false) return false;
+		if ($tld_file === false) return $tlds; // return an empty array on failure
 
 		$tld_array = explode("\n", $tld_file);
 		foreach ($tld_array as $tld)
@@ -105,10 +136,7 @@ class Validator
 			$tlds[] = strtolower($tld);
 		}
 
-		$value_tld = substr(strrchr(strtolower($value), "."), 1);
-
-		if (in_array($value_tld, $tlds)) return true;
-		else return false;
+		return $tlds;
 	}
 }
 

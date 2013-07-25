@@ -77,19 +77,49 @@ __isDomain__ returns true for any validly constructed domain name, including int
     Validator::isDomain("example.com");
     Validator::isDomain("www.example.com.au");
     Validator::isDomain("www-2.example.com");
+    Validator::isDomain("example.foo"); // valid because we don't perform strict checking of TLDs
 
     // the following evaluate to false
     Validator::isDomain("example_1.com"); // underscores not allowed
     Validator::isDomain("example."); // no TLD
     Validator::isDomain("example"); // no TLD
 
-__isDomainWithValidTLD__ returns true for any validly constructed domain name that also contains a valid Top Level Domain (TLD)
-By default, isDomainWithValidTLD will retrieve a list of valid TLDs from http://data.iana.org/TLD/tlds-alpha-by-domain.txt
-If retrieval fails, or if you manually override using the optional parrameter, the function will use a local version of the file, which may not contain the most up-to-date information
+    // Supply an array of TLDs to validate against for more strict validation
+    $tlds = array('com', 'au', 'travel', 'xn--0zwm56d');
+
+    Validator::isDomain('example.com', $tlds)); // true
+    Validator::isDomain('example.foo', $tlds)); // false
+
+__isTLD__ returns true for any valid TLD when compared to the list of TLDs passed to the function in an array
+
+You may pass a full domain and `isTLD` will check that the TLD extension is valid (but will not validate the domain itself)
+
+    // Supply an array of TLDs to validate against for more strict validation
+    $tlds = array('com', 'au', 'travel', 'xn--0zwm56d');
+
+    Validator::isTLD('com', $tlds)); // true
+    Validator::isTLD('.com', $tlds)); // true
+    Validator::isTLD('example.com', $tlds)); // true
+    Validator::isTLD('---.com', $tlds)); // true, since we don't validate the domain itself
+
+    Validator::isDomain('---.com', $tlds)); // false, validates both domain and TLD
+    Validator::isDomain('foo', $tlds)); // false
+    Validator::isDomain('example.foo', $tlds)); // false
+
+You can use `Validator::getTLDs()` to return a complete list of valid TLDs from http://data.iana.org/TLD/tlds-alpha-by-domain.txt
+
+Pass true to this function to use a locally stored copy of the file, which may not contain the most up-to-date information, but avoids network traffic
 
     // the following evaluate to true
-    Validator::isDomainWithValidTLD("example.travel");
-    Validator::isDomainWithValidTLD("example.travel", true); // check using local copy
+    Validator::isDomain("example.travel", Validator::getTLDs());
 
-    Validator::isDomainWithValidTLD("example.xn--0zwm56d"); // Simplified Chinese
-    Validator::isDomainWithValidTLD("example.xn--0zwm56d", true); // check using local copy
+    // use local copy of TLD file
+    Validator::isDomain("example.travel", Validator::getTLDs(true));
+
+	// Simplified Chinese!!
+    Validator::isDomain("example.xn--0zwm56d", Validator::getTLDs());
+
+Unit Testing
+------------
+
+To use local data only and ignore network tests, run: phpunit --exclude-group network

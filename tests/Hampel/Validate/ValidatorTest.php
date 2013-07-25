@@ -105,11 +105,65 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 		$this->assertFalse(Validator::isPublicIP('fd01:db8:0:0:0:ff00:42:8329'));
 	}
 
+	public function testGetTLDs()
+	{
+		$tlds = Validator::getTLDs(true); // use local copy
+
+		$this->assertTrue(in_array('com', $tlds));
+		$this->assertTrue(in_array('au', $tlds));
+		$this->assertTrue(in_array('travel', $tlds));
+		$this->assertTrue(in_array('xn--0zwm56d', $tlds));
+	}
+
+	/**
+	 * @group network
+	 */
+	public function testGetTLDsNetwork()
+	{
+		$tlds = Validator::getTLDs(); // use network copy
+
+		$this->assertTrue(in_array('com', $tlds));
+		$this->assertTrue(in_array('au', $tlds));
+		$this->assertTrue(in_array('travel', $tlds));
+		$this->assertTrue(in_array('xn--0zwm56d', $tlds));
+
+	}
+
+	public function testisTLD()
+	{
+		$tlds = array('com', 'au', 'travel', 'xn--0zwm56d'); // use mock data
+
+		$this->assertTrue(Validator::isTLD('com', $tlds));
+		$this->assertTrue(Validator::isTLD('au', $tlds));
+		$this->assertTrue(Validator::isTLD('travel', $tlds));
+		$this->assertTrue(Validator::isTLD('xn--0zwm56d', $tlds));
+
+		$this->assertTrue(Validator::isTLD('example.com', $tlds));
+		$this->assertTrue(Validator::isTLD('example.com.au', $tlds));
+		$this->assertTrue(Validator::isTLD('example.travel', $tlds));
+		$this->assertTrue(Validator::isTLD('example.xn--0zwm56d', $tlds));
+
+		$this->assertTrue(Validator::isTLD('.com', $tlds));
+		$this->assertTrue(Validator::isTLD('.travel', $tlds));
+		$this->assertTrue(Validator::isTLD('.xn--0zwm56d', $tlds));
+
+		$this->assertTrue(Validator::isTLD('---.com', $tlds)); // true because it doesn't validate domains
+
+		$this->assertFalse(Validator::isTLD('', $tlds));
+		$this->assertFalse(Validator::isTLD('', array()));
+		$this->assertFalse(Validator::isTLD('foo', $tlds));
+		$this->assertFalse(Validator::isTLD('0', $tlds));
+		$this->assertFalse(Validator::isTLD('example.foo', $tlds));
+	}
+
 	public function testIsDomain()
 	{
+		$tlds = array('com', 'au', 'travel', 'xn--0zwm56d'); // use mock data
+
 		$this->assertTrue(Validator::isDomain('example.com'));
 		$this->assertTrue(Validator::isDomain('www.example.com.au'));
 		$this->assertTrue(Validator::isDomain('www-2.example.com'));
+		$this->assertTrue(Validator::isDomain('example.foo')); // true because it doesn't validate TLD
 
 		$this->assertFalse(Validator::isDomain('example_1.com'));
 		$this->assertFalse(Validator::isDomain('example.'));
@@ -117,36 +171,25 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 		$this->assertFalse(Validator::isDomain('e'));
 		$this->assertFalse(Validator::isDomain('0'));
 
+		$this->assertTrue(Validator::isDomain('example.com', $tlds));
+		$this->assertTrue(Validator::isDomain('www.example.com.au', $tlds));
+		$this->assertTrue(Validator::isDomain('www-2.example.com', $tlds));
+		$this->assertTrue(Validator::isDomain('example.travel', $tlds));
+		$this->assertTrue(Validator::isDomain('example.xn--0zwm56d', $tlds));
+
+		$this->assertFalse(Validator::isDomain('---.com', $tlds)); // false because we validate both domain and TLD
+
+		$this->assertFalse(Validator::isDomain('', $tlds));
+		$this->assertFalse(Validator::isDomain('example.com', array("net")));
+		$this->assertFalse(Validator::isDomain('example.foo', $tlds)); // false because we validated the TLD this time
+		$this->assertFalse(Validator::isDomain('example.travelx', $tlds));
+		$this->assertFalse(Validator::isDomain('example_1.com', $tlds)); // invalid domain portion
+		$this->assertFalse(Validator::isDomain('example.', $tlds));
+		$this->assertFalse(Validator::isDomain('example', $tlds));
+		$this->assertFalse(Validator::isDomain('e', $tlds));
+		$this->assertFalse(Validator::isDomain('0', $tlds));
 	}
 
-	public function testIsDomainWithValidTLD()
-	{
-		$this->assertTrue(Validator::isDomainWithValidTLD('example.com'));
-		$this->assertTrue(Validator::isDomainWithValidTLD('www.example.com.au'));
-		$this->assertTrue(Validator::isDomainWithValidTLD('www-2.example.com'));
-		$this->assertTrue(Validator::isDomainWithValidTLD('example.travel'));
-		$this->assertTrue(Validator::isDomainWithValidTLD('example.xn--0zwm56d'));
-
-		$this->assertFalse(Validator::isDomainWithValidTLD('example.travelx'));
-		$this->assertFalse(Validator::isDomainWithValidTLD('example_1.com'));
-		$this->assertFalse(Validator::isDomainWithValidTLD('example.'));
-		$this->assertFalse(Validator::isDomainWithValidTLD('example'));
-		$this->assertFalse(Validator::isDomainWithValidTLD('e'));
-		$this->assertFalse(Validator::isDomainWithValidTLD('0'));
-
-		$this->assertTrue(Validator::isDomainWithValidTLD('example.com', true));
-		$this->assertTrue(Validator::isDomainWithValidTLD('www.example.com.au', true));
-		$this->assertTrue(Validator::isDomainWithValidTLD('www-2.example.com', true));
-		$this->assertTrue(Validator::isDomainWithValidTLD('example.travel', true));
-		$this->assertTrue(Validator::isDomainWithValidTLD('example.xn--0zwm56d', true));
-
-		$this->assertFalse(Validator::isDomainWithValidTLD('example.travelx', true));
-		$this->assertFalse(Validator::isDomainWithValidTLD('example_1.com', true));
-		$this->assertFalse(Validator::isDomainWithValidTLD('example.', true));
-		$this->assertFalse(Validator::isDomainWithValidTLD('example', true));
-		$this->assertFalse(Validator::isDomainWithValidTLD('e', true));
-		$this->assertFalse(Validator::isDomainWithValidTLD('0', true));
-	}
 }
 
 ?>
