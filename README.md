@@ -14,7 +14,7 @@ Require the package via Composer in your `composer.json`
 
     {
         "require": {
-            "hampel/validate": "dev-master"
+            "hampel/validate": "1.0.*"
         }
     }
 

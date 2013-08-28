@@ -1,27 +1,33 @@
 {
     "name": "hampel/validate",
     "description": "Simple validator library composer package",
-    "authors": [
-        {
-            "name": "Simon Hampel",
-            "email": "simon@hampelgroup.com"
-        }
-    ],
-	"keywords" : [
-		"php",
+	"homepage" : "https://bitbucket.org/hampel/validate",
+	"authors": [{
+		"name": "Simon Hampel",
+		"email": "simon@hampelgroup.com",
+		"homepage": "http://hampelgroup.com/",
+		"role": "Developer"
+	}],
+	"support": {
+		"email": "support@hampelgroup.com",
+		"issues": "https://bitbucket.org/hampel/validate/issues",
+		"source": "https://bitbucket.org/hampel/validate/src"
+	},
+	"keywords": [
 		"validation"
 	],
-	"homepage" : "https://bitbucket.org/hampel/validate",
 	"license" : [
 		"MIT"
 	],
     "require": {
         "php": ">=5.3.0"
     },
+	"require-dev" : {
+		"phpunit/phpunit" : "3.7.*"
+	},
     "autoload": {
         "psr-0": {
             "Hampel\\Validate": "src/"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }
