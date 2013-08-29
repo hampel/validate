@@ -122,4 +122,4 @@ Pass true to this function to use a locally stored copy of the file, which may n
 Unit Testing
 ------------
 
-To use local data only and ignore network tests, run: phpunit --exclude-group network
+To use local data only and ignore network tests, run: `phpunit --exclude-group network`
