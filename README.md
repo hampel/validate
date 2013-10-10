@@ -25,6 +25,8 @@ Run Composer to update the new requirement.
 Usage
 -----
 
+__isEmail__ returns true for validly formed email addresses
+
 __isBool__ returns true for "1", "true", "on" and "yes", "0", "false", "off", "no", and "", and NULL ... and returns false for any other value
 
     // the following all evaluate to boolean true

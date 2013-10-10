@@ -5,6 +5,14 @@
 
 class Validator
 {
+	public static function isEmail($value)
+	{
+		$filtered = filter_var($value, FILTER_VALIDATE_EMAIL);
+
+		if ($filtered === false) return false;
+		else return true;
+	}
+
 	public static function isBool($value)
 	{
 		$filtered = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);

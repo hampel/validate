@@ -2,6 +2,13 @@
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
+	public function testIsEmail()
+	{
+		$this->assertTrue(Validator::isEmail('foo@gmail.com'));
+		$this->assertFalse(Validator::isEmail('foo@gmail'));
+		$this->assertFalse(Validator::isEmail('foo'));
+	}
+
 	public function testIsBool()
 	{
 		$this->assertTrue(Validator::isBool(true));
