@@ -2,119 +2,126 @@
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
+	public function setUp()
+	{
+		parent::setUp();
+
+		$this->validator = new Validator;
+	}
+
 	public function testIsEmail()
 	{
-		$this->assertTrue(Validator::isEmail('foo@gmail.com'));
-		$this->assertFalse(Validator::isEmail('foo@gmail'));
-		$this->assertFalse(Validator::isEmail('foo'));
+		$this->assertTrue($this->validator->isEmail('foo@gmail.com'));
+		$this->assertFalse($this->validator->isEmail('foo@gmail'));
+		$this->assertFalse($this->validator->isEmail('foo'));
 	}
 
 	public function testIsBool()
 	{
-		$this->assertTrue(Validator::isBool(true));
-		$this->assertTrue(Validator::isBool(1));
-		$this->assertTrue(Validator::isBool('on'));
-		$this->assertTrue(Validator::isBool('yes'));
-		$this->assertTrue(Validator::isBool(false));
-		$this->assertTrue(Validator::isBool(0));
-		$this->assertTrue(Validator::isBool('off'));
-		$this->assertTrue(Validator::isBool('no'));
-		$this->assertTrue(Validator::isBool(''));
-		$this->assertTrue(Validator::isBool(null));
+		$this->assertTrue($this->validator->isBool(true));
+		$this->assertTrue($this->validator->isBool(1));
+		$this->assertTrue($this->validator->isBool('on'));
+		$this->assertTrue($this->validator->isBool('yes'));
+		$this->assertTrue($this->validator->isBool(false));
+		$this->assertTrue($this->validator->isBool(0));
+		$this->assertTrue($this->validator->isBool('off'));
+		$this->assertTrue($this->validator->isBool('no'));
+		$this->assertTrue($this->validator->isBool(''));
+		$this->assertTrue($this->validator->isBool(null));
 
-		$this->assertFalse(Validator::isBool('foo'));
-		$this->assertFalse(Validator::isBool(2));
+		$this->assertFalse($this->validator->isBool('foo'));
+		$this->assertFalse($this->validator->isBool(2));
 	}
 
 	public function testIsIPv4()
 	{
-		$this->assertTrue(Validator::isIPv4('0.0.0.0'));
-		$this->assertTrue(Validator::isIPv4('1.1.1.1'));
-		$this->assertTrue(Validator::isIPv4('10.0.0.1'));
-		$this->assertTrue(Validator::isIPv4('192.168.0.1'));
-		$this->assertTrue(Validator::isIPv4('255.255.255.255'));
+		$this->assertTrue($this->validator->isIPv4('0.0.0.0'));
+		$this->assertTrue($this->validator->isIPv4('1.1.1.1'));
+		$this->assertTrue($this->validator->isIPv4('10.0.0.1'));
+		$this->assertTrue($this->validator->isIPv4('192.168.0.1'));
+		$this->assertTrue($this->validator->isIPv4('255.255.255.255'));
 
-		$this->assertFalse(Validator::isIPv4('foo'));
-		$this->assertFalse(Validator::isIPv4('1.0.0.256'));
+		$this->assertFalse($this->validator->isIPv4('foo'));
+		$this->assertFalse($this->validator->isIPv4('1.0.0.256'));
 	}
 
 	public function testIsPublicIPv4()
 	{
-		$this->assertTrue(Validator::isPublicIPv4('1.1.1.1'));
-		$this->assertTrue(Validator::isPublicIPv4('74.125.237.2'));
+		$this->assertTrue($this->validator->isPublicIPv4('1.1.1.1'));
+		$this->assertTrue($this->validator->isPublicIPv4('74.125.237.2'));
 
-		$this->assertFalse(Validator::isPublicIPv4('foo'));
-		$this->assertFalse(Validator::isPublicIPv4('0.0.0.0'));
-		$this->assertFalse(Validator::isPublicIPv4('1.0.0.256'));
-		$this->assertFalse(Validator::isPublicIPv4('10.0.0.1'));
-		$this->assertFalse(Validator::isPublicIPv4('192.168.0.1'));
+		$this->assertFalse($this->validator->isPublicIPv4('foo'));
+		$this->assertFalse($this->validator->isPublicIPv4('0.0.0.0'));
+		$this->assertFalse($this->validator->isPublicIPv4('1.0.0.256'));
+		$this->assertFalse($this->validator->isPublicIPv4('10.0.0.1'));
+		$this->assertFalse($this->validator->isPublicIPv4('192.168.0.1'));
 	}
 
 	public function testIsIPv6()
 	{
-		$this->assertTrue(Validator::isIPv6('2001:0db8:0000:0000:0000:ff00:0042:8329'));
-		$this->assertTrue(Validator::isIPv6('2001:db8:0:0:0:ff00:42:8329'));
-		$this->assertTrue(Validator::isIPv6('2001:db8::ff00:42:8329'));
-		$this->assertTrue(Validator::isIPv6('0000:0000:0000:0000:0000:0000:0000:0001'));
-		$this->assertTrue(Validator::isIPv6('::1'));
+		$this->assertTrue($this->validator->isIPv6('2001:0db8:0000:0000:0000:ff00:0042:8329'));
+		$this->assertTrue($this->validator->isIPv6('2001:db8:0:0:0:ff00:42:8329'));
+		$this->assertTrue($this->validator->isIPv6('2001:db8::ff00:42:8329'));
+		$this->assertTrue($this->validator->isIPv6('0000:0000:0000:0000:0000:0000:0000:0001'));
+		$this->assertTrue($this->validator->isIPv6('::1'));
 
-		$this->assertFalse(Validator::isIPv6('foo'));
-		$this->assertFalse(Validator::isIPv6('0.0.0.0'));
-		$this->assertFalse(Validator::isIPv6('1.1.1.1'));
-		$this->assertFalse(Validator::isIPv6('10.0.0.1'));
+		$this->assertFalse($this->validator->isIPv6('foo'));
+		$this->assertFalse($this->validator->isIPv6('0.0.0.0'));
+		$this->assertFalse($this->validator->isIPv6('1.1.1.1'));
+		$this->assertFalse($this->validator->isIPv6('10.0.0.1'));
 	}
 
 	public function testIsPublicIPv6()
 	{
-		$this->assertTrue(Validator::isPublicIPv6('2001:db8:0:0:0:ff00:42:8329'));
-		$this->assertTrue(Validator::isPublicIPv6('2001:db8::ff00:42:8329'));
-		$this->assertTrue(Validator::isPublicIPv6('0000:0000:0000:0000:0000:0000:0000:0001'));
+		$this->assertTrue($this->validator->isPublicIPv6('2001:db8:0:0:0:ff00:42:8329'));
+		$this->assertTrue($this->validator->isPublicIPv6('2001:db8::ff00:42:8329'));
+		$this->assertTrue($this->validator->isPublicIPv6('0000:0000:0000:0000:0000:0000:0000:0001'));
 
-		$this->assertFalse(Validator::isPublicIPv6('::1'));
-		$this->assertFalse(Validator::isPublicIPv6('fd01:db8:0:0:0:ff00:42:8329'));
-		$this->assertFalse(Validator::isPublicIPv6('foo'));
-		$this->assertFalse(Validator::isPublicIPv6('0.0.0.0'));
-		$this->assertFalse(Validator::isPublicIPv6('1.1.1.1'));
-		$this->assertFalse(Validator::isPublicIPv6('10.0.0.1'));
+		$this->assertFalse($this->validator->isPublicIPv6('::1'));
+		$this->assertFalse($this->validator->isPublicIPv6('fd01:db8:0:0:0:ff00:42:8329'));
+		$this->assertFalse($this->validator->isPublicIPv6('foo'));
+		$this->assertFalse($this->validator->isPublicIPv6('0.0.0.0'));
+		$this->assertFalse($this->validator->isPublicIPv6('1.1.1.1'));
+		$this->assertFalse($this->validator->isPublicIPv6('10.0.0.1'));
 	}
 
 	public function testIsIP()
 	{
-		$this->assertTrue(Validator::isIP('0.0.0.0'));
-		$this->assertTrue(Validator::isIP('1.1.1.1'));
-		$this->assertTrue(Validator::isIP('10.0.0.1'));
-		$this->assertTrue(Validator::isIP('192.168.0.1'));
-		$this->assertTrue(Validator::isIP('255.255.255.255'));
-		$this->assertTrue(Validator::isIP('2001:0db8:0000:0000:0000:ff00:0042:8329'));
-		$this->assertTrue(Validator::isIP('2001:db8:0:0:0:ff00:42:8329'));
-		$this->assertTrue(Validator::isIP('2001:db8::ff00:42:8329'));
-		$this->assertTrue(Validator::isIP('0000:0000:0000:0000:0000:0000:0000:0001'));
-		$this->assertTrue(Validator::isIP('::1'));
+		$this->assertTrue($this->validator->isIP('0.0.0.0'));
+		$this->assertTrue($this->validator->isIP('1.1.1.1'));
+		$this->assertTrue($this->validator->isIP('10.0.0.1'));
+		$this->assertTrue($this->validator->isIP('192.168.0.1'));
+		$this->assertTrue($this->validator->isIP('255.255.255.255'));
+		$this->assertTrue($this->validator->isIP('2001:0db8:0000:0000:0000:ff00:0042:8329'));
+		$this->assertTrue($this->validator->isIP('2001:db8:0:0:0:ff00:42:8329'));
+		$this->assertTrue($this->validator->isIP('2001:db8::ff00:42:8329'));
+		$this->assertTrue($this->validator->isIP('0000:0000:0000:0000:0000:0000:0000:0001'));
+		$this->assertTrue($this->validator->isIP('::1'));
 
-		$this->assertFalse(Validator::isIP('foo'));
-		$this->assertFalse(Validator::isIP('1.0.0.256'));
+		$this->assertFalse($this->validator->isIP('foo'));
+		$this->assertFalse($this->validator->isIP('1.0.0.256'));
 	}
 
 	public function testIsPublicIP()
 	{
-		$this->assertTrue(Validator::isPublicIP('1.1.1.1'));
-		$this->assertTrue(Validator::isPublicIP('74.125.237.2'));
-		$this->assertTrue(Validator::isPublicIP('2001:db8:0:0:0:ff00:42:8329'));
-		$this->assertTrue(Validator::isPublicIP('2001:db8::ff00:42:8329'));
-		$this->assertTrue(Validator::isPublicIP('0000:0000:0000:0000:0000:0000:0000:0001'));
+		$this->assertTrue($this->validator->isPublicIP('1.1.1.1'));
+		$this->assertTrue($this->validator->isPublicIP('74.125.237.2'));
+		$this->assertTrue($this->validator->isPublicIP('2001:db8:0:0:0:ff00:42:8329'));
+		$this->assertTrue($this->validator->isPublicIP('2001:db8::ff00:42:8329'));
+		$this->assertTrue($this->validator->isPublicIP('0000:0000:0000:0000:0000:0000:0000:0001'));
 
-		$this->assertFalse(Validator::isPublicIP('foo'));
-		$this->assertFalse(Validator::isPublicIP('0.0.0.0'));
-		$this->assertFalse(Validator::isPublicIP('1.0.0.256'));
-		$this->assertFalse(Validator::isPublicIP('10.0.0.1'));
-		$this->assertFalse(Validator::isPublicIP('192.168.0.1'));
-		$this->assertFalse(Validator::isPublicIP('::1'));
-		$this->assertFalse(Validator::isPublicIP('fd01:db8:0:0:0:ff00:42:8329'));
+		$this->assertFalse($this->validator->isPublicIP('foo'));
+		$this->assertFalse($this->validator->isPublicIP('0.0.0.0'));
+		$this->assertFalse($this->validator->isPublicIP('1.0.0.256'));
+		$this->assertFalse($this->validator->isPublicIP('10.0.0.1'));
+		$this->assertFalse($this->validator->isPublicIP('192.168.0.1'));
+		$this->assertFalse($this->validator->isPublicIP('::1'));
+		$this->assertFalse($this->validator->isPublicIP('fd01:db8:0:0:0:ff00:42:8329'));
 	}
 
 	public function testGetTLDs()
 	{
-		$tlds = Validator::getTLDs(true); // use local copy
+		$tlds = $this->validator->getTLDs(true); // use local copy
 
 		$this->assertTrue(in_array('com', $tlds));
 		$this->assertTrue(in_array('au', $tlds));
@@ -127,7 +134,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetTLDsNetwork()
 	{
-		$tlds = Validator::getTLDs(); // use network copy
+		$tlds = $this->validator->getTLDs(); // use network copy
 
 		$this->assertTrue(in_array('com', $tlds));
 		$this->assertTrue(in_array('au', $tlds));
@@ -140,61 +147,61 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 	{
 		$tlds = array('com', 'au', 'travel', 'xn--0zwm56d'); // use mock data
 
-		$this->assertTrue(Validator::isTLD('com', $tlds));
-		$this->assertTrue(Validator::isTLD('au', $tlds));
-		$this->assertTrue(Validator::isTLD('travel', $tlds));
-		$this->assertTrue(Validator::isTLD('xn--0zwm56d', $tlds));
+		$this->assertTrue($this->validator->isTLD('com', $tlds));
+		$this->assertTrue($this->validator->isTLD('au', $tlds));
+		$this->assertTrue($this->validator->isTLD('travel', $tlds));
+		$this->assertTrue($this->validator->isTLD('xn--0zwm56d', $tlds));
 
-		$this->assertTrue(Validator::isTLD('example.com', $tlds));
-		$this->assertTrue(Validator::isTLD('example.com.au', $tlds));
-		$this->assertTrue(Validator::isTLD('example.travel', $tlds));
-		$this->assertTrue(Validator::isTLD('example.xn--0zwm56d', $tlds));
+		$this->assertTrue($this->validator->isTLD('example.com', $tlds));
+		$this->assertTrue($this->validator->isTLD('example.com.au', $tlds));
+		$this->assertTrue($this->validator->isTLD('example.travel', $tlds));
+		$this->assertTrue($this->validator->isTLD('example.xn--0zwm56d', $tlds));
 
-		$this->assertTrue(Validator::isTLD('.com', $tlds));
-		$this->assertTrue(Validator::isTLD('.travel', $tlds));
-		$this->assertTrue(Validator::isTLD('.xn--0zwm56d', $tlds));
+		$this->assertTrue($this->validator->isTLD('.com', $tlds));
+		$this->assertTrue($this->validator->isTLD('.travel', $tlds));
+		$this->assertTrue($this->validator->isTLD('.xn--0zwm56d', $tlds));
 
-		$this->assertTrue(Validator::isTLD('---.com', $tlds)); // true because it doesn't validate domains
+		$this->assertTrue($this->validator->isTLD('---.com', $tlds)); // true because it doesn't validate domains
 
-		$this->assertFalse(Validator::isTLD('', $tlds));
-		$this->assertFalse(Validator::isTLD('', array()));
-		$this->assertFalse(Validator::isTLD('foo', $tlds));
-		$this->assertFalse(Validator::isTLD('0', $tlds));
-		$this->assertFalse(Validator::isTLD('example.foo', $tlds));
+		$this->assertFalse($this->validator->isTLD('', $tlds));
+		$this->assertFalse($this->validator->isTLD('', array()));
+		$this->assertFalse($this->validator->isTLD('foo', $tlds));
+		$this->assertFalse($this->validator->isTLD('0', $tlds));
+		$this->assertFalse($this->validator->isTLD('example.foo', $tlds));
 	}
 
 	public function testIsDomain()
 	{
 		$tlds = array('com', 'au', 'travel', 'xn--0zwm56d'); // use mock data
 
-		$this->assertTrue(Validator::isDomain('example.com'));
-		$this->assertTrue(Validator::isDomain('www.example.com.au'));
-		$this->assertTrue(Validator::isDomain('www-2.example.com'));
-		$this->assertTrue(Validator::isDomain('example.foo')); // true because it doesn't validate TLD
+		$this->assertTrue($this->validator->isDomain('example.com'));
+		$this->assertTrue($this->validator->isDomain('www.example.com.au'));
+		$this->assertTrue($this->validator->isDomain('www-2.example.com'));
+		$this->assertTrue($this->validator->isDomain('example.foo')); // true because it doesn't validate TLD
 
-		$this->assertFalse(Validator::isDomain('example_1.com'));
-		$this->assertFalse(Validator::isDomain('example.'));
-		$this->assertFalse(Validator::isDomain('example'));
-		$this->assertFalse(Validator::isDomain('e'));
-		$this->assertFalse(Validator::isDomain('0'));
+		$this->assertFalse($this->validator->isDomain('example_1.com'));
+		$this->assertFalse($this->validator->isDomain('example.'));
+		$this->assertFalse($this->validator->isDomain('example'));
+		$this->assertFalse($this->validator->isDomain('e'));
+		$this->assertFalse($this->validator->isDomain('0'));
 
-		$this->assertTrue(Validator::isDomain('example.com', $tlds));
-		$this->assertTrue(Validator::isDomain('www.example.com.au', $tlds));
-		$this->assertTrue(Validator::isDomain('www-2.example.com', $tlds));
-		$this->assertTrue(Validator::isDomain('example.travel', $tlds));
-		$this->assertTrue(Validator::isDomain('example.xn--0zwm56d', $tlds));
+		$this->assertTrue($this->validator->isDomain('example.com', $tlds));
+		$this->assertTrue($this->validator->isDomain('www.example.com.au', $tlds));
+		$this->assertTrue($this->validator->isDomain('www-2.example.com', $tlds));
+		$this->assertTrue($this->validator->isDomain('example.travel', $tlds));
+		$this->assertTrue($this->validator->isDomain('example.xn--0zwm56d', $tlds));
 
-		$this->assertFalse(Validator::isDomain('---.com', $tlds)); // false because we validate both domain and TLD
+		$this->assertFalse($this->validator->isDomain('---.com', $tlds)); // false because we validate both domain and TLD
 
-		$this->assertFalse(Validator::isDomain('', $tlds));
-		$this->assertFalse(Validator::isDomain('example.com', array("net")));
-		$this->assertFalse(Validator::isDomain('example.foo', $tlds)); // false because we validated the TLD this time
-		$this->assertFalse(Validator::isDomain('example.travelx', $tlds));
-		$this->assertFalse(Validator::isDomain('example_1.com', $tlds)); // invalid domain portion
-		$this->assertFalse(Validator::isDomain('example.', $tlds));
-		$this->assertFalse(Validator::isDomain('example', $tlds));
-		$this->assertFalse(Validator::isDomain('e', $tlds));
-		$this->assertFalse(Validator::isDomain('0', $tlds));
+		$this->assertFalse($this->validator->isDomain('', $tlds));
+		$this->assertFalse($this->validator->isDomain('example.com', array("net")));
+		$this->assertFalse($this->validator->isDomain('example.foo', $tlds)); // false because we validated the TLD this time
+		$this->assertFalse($this->validator->isDomain('example.travelx', $tlds));
+		$this->assertFalse($this->validator->isDomain('example_1.com', $tlds)); // invalid domain portion
+		$this->assertFalse($this->validator->isDomain('example.', $tlds));
+		$this->assertFalse($this->validator->isDomain('example', $tlds));
+		$this->assertFalse($this->validator->isDomain('e', $tlds));
+		$this->assertFalse($this->validator->isDomain('0', $tlds));
 	}
 
 }

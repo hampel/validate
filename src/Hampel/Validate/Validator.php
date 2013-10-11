@@ -5,7 +5,7 @@
 
 class Validator
 {
-	public static function isEmail($value)
+	public function isEmail($value)
 	{
 		$filtered = filter_var($value, FILTER_VALIDATE_EMAIL);
 
@@ -13,14 +13,14 @@ class Validator
 		else return true;
 	}
 
-	public static function isBool($value)
+	public function isBool($value)
 	{
 		$filtered = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 		if (is_null($filtered)) return false;
 		else return true;
 	}
 
-	public static function isIPv4($value)
+	public function isIPv4($value)
 	{
 		$filtered = filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
 
@@ -28,7 +28,7 @@ class Validator
 		else return true;
 	}
 
-	public static function isPublicIPv4($value)
+	public function isPublicIPv4($value)
 	{
 		$filtered = filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 
@@ -36,7 +36,7 @@ class Validator
 		else return true;
 	}
 
-	public static function isIPv6($value)
+	public function isIPv6($value)
 	{
 		$filtered = filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
 
@@ -44,7 +44,7 @@ class Validator
 		else return true;
 	}
 
-	public static function isPublicIPv6($value)
+	public function isPublicIPv6($value)
 	{
 		$filtered = filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 
@@ -52,14 +52,14 @@ class Validator
 		else return true;
 	}
 
-	public static function isIP($value)
+	public function isIP($value)
 	{
-		return self::isIPv4($value) OR self::isIPv6($value);
+		return $this->isIPv4($value) OR $this->isIPv6($value);
 	}
 
-	public static function isPublicIP($value)
+	public function isPublicIP($value)
 	{
-		return self::isPublicIPv4($value) OR self::isPublicIPv6($value);
+		return $this->isPublicIPv4($value) OR $this->isPublicIPv6($value);
 	}
 
 	/**
@@ -75,13 +75,13 @@ class Validator
 	 *
 	 * @return bool
 	 */
-	public static function isDomain($value, array $tlds = array())
+	public function isDomain($value, array $tlds = array())
 	{
 		if (!preg_match("/\b((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}\b/ix", $value)) return false;
 
 		if (!empty($tlds))
 		{
-			return self::isTLD($value, $tlds);
+			return $this->isTLD($value, $tlds);
 		}
 		else return true;
 	}
@@ -95,7 +95,7 @@ class Validator
 	 *
 	 * @return bool
 	 */
-	public static function isTLD($value, array $tlds)
+	public function isTLD($value, array $tlds)
 	{
 		if (empty($value) OR empty($tlds)) return false; // don't bother if no data passed
 
@@ -114,7 +114,7 @@ class Validator
 	 *
 	 * @return array of TLD strings
 	 */
-	public static function getTLDs($local_copy_only = false)
+	public function getTLDs($local_copy_only = false)
 	{
 		$tlds = array();
 		$tld_file = false;

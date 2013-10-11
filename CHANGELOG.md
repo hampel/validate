@@ -1,7 +1,14 @@
 CHANGELOG
 =========
 
+2.0.0 (2013-10-11)
+------------------
+
+* rewrote class to not use static methods
+* updated tlds-alpha-by-domain.txt to most recent version
+
 1.1.0 (2013-10-10)
+------------------
 
 * added new function isEmail
 
