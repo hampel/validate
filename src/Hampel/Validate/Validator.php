@@ -20,7 +20,7 @@ class Validator
 		else return true;
 	}
 
-	public function isIPv4($value)
+	public function isIpv4($value)
 	{
 		$filtered = filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
 
@@ -28,7 +28,7 @@ class Validator
 		else return true;
 	}
 
-	public function isPublicIPv4($value)
+	public function isPublicIpv4($value)
 	{
 		$filtered = filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 
@@ -36,7 +36,7 @@ class Validator
 		else return true;
 	}
 
-	public function isIPv6($value)
+	public function isIpv6($value)
 	{
 		$filtered = filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
 
@@ -44,7 +44,7 @@ class Validator
 		else return true;
 	}
 
-	public function isPublicIPv6($value)
+	public function isPublicIpv6($value)
 	{
 		$filtered = filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 
@@ -52,14 +52,14 @@ class Validator
 		else return true;
 	}
 
-	public function isIP($value)
+	public function isIp($value)
 	{
-		return $this->isIPv4($value) OR $this->isIPv6($value);
+		return $this->isIpv4($value) OR $this->isIpv6($value);
 	}
 
-	public function isPublicIP($value)
+	public function isPublicIp($value)
 	{
-		return $this->isPublicIPv4($value) OR $this->isPublicIPv6($value);
+		return $this->isPublicIpv4($value) OR $this->isPublicIpv6($value);
 	}
 
 	/**
@@ -68,7 +68,7 @@ class Validator
 	 * Allow internationalized domains using punycode notation, as well as regular domain names
 	 * Use lookahead to check that each part of the domain name is 63 characters or less"
 	 *
-	 * Pass in the array returned by getTLDs() to the $tlds parameter to validate the domain against a list of valid TLDs
+	 * Pass in the array returned by getTlds() to the $tlds parameter to validate the domain against a list of valid TLDs
 	 *
 	 * @param $value string		the value to check
 	 * @param $tlds array		optional array of TLDs to validate against (must be lowercase)
@@ -81,7 +81,7 @@ class Validator
 
 		if (!empty($tlds))
 		{
-			return $this->isTLD($value, $tlds);
+			return $this->isTld($value, $tlds);
 		}
 		else return true;
 	}
@@ -95,7 +95,7 @@ class Validator
 	 *
 	 * @return bool
 	 */
-	public function isTLD($value, array $tlds)
+	public function isTld($value, array $tlds)
 	{
 		if (empty($value) OR empty($tlds)) return false; // don't bother if no data passed
 
@@ -114,7 +114,7 @@ class Validator
 	 *
 	 * @return array of TLD strings
 	 */
-	public function getTLDs($local_copy_only = false)
+	public function getTlds($local_copy_only = false)
 	{
 		$tlds = array();
 		$tld_file = false;
