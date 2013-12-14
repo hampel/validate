@@ -36,7 +36,8 @@ _Example_:
 
 __isEmail__ returns true for validly formed email addresses
 
-__isBool__ returns true for "1", "true", "on" and "yes", "0", "false", "off", "no", and "", and NULL ... and returns false for any other value
+__isBool__ returns true for "1", "true", "on" and "yes", "0", "false", "off", "no", and "", and NULL ... and returns
+false for any other value
 
 	:::php
     // the following all evaluate to boolean true
@@ -55,33 +56,33 @@ __isBool__ returns true for "1", "true", "on" and "yes", "0", "false", "off", "n
     $validator->isBool("foo"));
     $validator->isBool(2);
 
-__isIPv4__ returns true for any valid IPv4 address, including private and reserved addresses
+__isIpv4__ returns true for any valid IPv4 address, including private and reserved addresses
 
 	:::php
      // the following all evaluate to true
-    $validator->isIPv4("0.0.0.0");
-    $validator->isIPv4("1.1.1.1");
-    $validator->isIPv4("10.0.0.1");
-    $validator->isIPv4("192.168.0.1");
-    $validator->isIPv4("255.255.255.255");
+    $validator->isIpv4("0.0.0.0");
+    $validator->isIpv4("1.1.1.1");
+    $validator->isIpv4("10.0.0.1");
+    $validator->isIpv4("192.168.0.1");
+    $validator->isIpv4("255.255.255.255");
 
-__isPublicIPv4__ returns true for valid IPv4 addresses which are not in the private or reserved ranges
+__isPublicIpv4__ returns true for valid IPv4 addresses which are not in the private or reserved ranges
 
 	:::php
     // the following evaluate to true
-    $validator->isPublicIPv4("1.1.1.1");
-    $validator->isPublicIPv4("74.125.237.2");
+    $validator->isPublicIpv4("1.1.1.1");
+    $validator->isPublicIpv4("74.125.237.2");
 
     // the following evaluate to false
-    $validator->isPublicIPv4("0.0.0.0");
-    $validator->isPublicIPv4("10.0.0.1");
-    $validator->isPublicIPv4("192.168.0.1");
+    $validator->isPublicIpv4("0.0.0.0");
+    $validator->isPublicIpv4("10.0.0.1");
+    $validator->isPublicIpv4("192.168.0.1");
 
-__isIPv6__ returns true for any valid IPv6 address, including private and reserved addresses
+__isIpv6__ returns true for any valid IPv6 address, including private and reserved addresses
 
-__isPublicIPv6__ returns true for valid IPv6 addresses which are not considered non-routable
+__isPublicIpv6__ returns true for valid IPv6 addresses which are not considered non-routable
 
-__isIP__ returns true for any valid IPv4 or IPv6 address
+__isIp__ returns true for any valid IPv4 or IPv6 address
 
 __isPublicIP__ returns true for any public IPv4 or IPv6 address
 
@@ -100,41 +101,44 @@ __isDomain__ returns true for any validly constructed domain name, including int
     $validator->isDomain("example"); // no TLD
 
     // Supply an array of TLDs to validate against for more strict validation
-    $tlds = array('com', 'au', 'travel', 'xn--0zwm56d');
+    $tlds = array('com', 'au', 'travel', 'xn--3e0b707e');
 
     $validator->isDomain('example.com', $tlds)); // true
     $validator->isDomain('example.foo', $tlds)); // false
 
-__isTLD__ returns true for any valid TLD when compared to the list of TLDs passed to the function in an array
+__isTld__ returns true for any valid TLD when compared to the list of TLDs passed to the function in an array
 
-You may pass a full domain and `isTLD` will check that the TLD extension is valid (but will not validate the domain itself)
+You may pass a full domain and `isTld` will check that the TLD extension is valid (but will not validate the domain
+itself)
 
 	:::php
     // Supply an array of TLDs to validate against for more strict validation
-    $tlds = array('com', 'au', 'travel', 'xn--0zwm56d');
+    $tlds = array('com', 'au', 'travel', 'xn--3e0b707e');
 
-    $validator->isTLD('com', $tlds)); // true
-    $validator->isTLD('.com', $tlds)); // true
-    $validator->isTLD('example.com', $tlds)); // true
-    $validator->isTLD('---.com', $tlds)); // true, since we don't validate the domain itself
+    $validator->isTld('com', $tlds)); // true
+    $validator->isTld('.com', $tlds)); // true
+    $validator->isTld('example.com', $tlds)); // true
+    $validator->isTld('---.com', $tlds)); // true, since we don't validate the domain itself
 
     $validator->isDomain('---.com', $tlds)); // false, validates both domain and TLD
     $validator->isDomain('foo', $tlds)); // false
     $validator->isDomain('example.foo', $tlds)); // false
 
-You can use `$validator->getTLDs()` to return a complete list of valid TLDs from http://data.iana.org/TLD/tlds-alpha-by-domain.txt
+You can use `$validator->getTlds()` to return a complete list of valid TLDs from
+http://data.iana.org/TLD/tlds-alpha-by-domain.txt
 
-Pass true to this function to use a locally stored copy of the file, which may not contain the most up-to-date information, but avoids network traffic
+Pass true to this function to use a locally stored copy of the file, which may not contain the most up-to-date
+information, but avoids network traffic
 
 	:::php
     // the following evaluate to true
-    $validator->isDomain("example.travel", $validator->getTLDs());
+    $validator->isDomain("example.travel", $validator->getTlds());
 
     // use local copy of TLD file
-    $validator->isDomain("example.travel", $validator->getTLDs(true));
+    $validator->isDomain("example.travel", $validator->getTlds(true));
 
 	// Simplified Chinese!!
-    $validator->isDomain("example.xn--0zwm56d", $validator->getTLDs());
+    $validator->isDomain("example.xn--3e0b707e", $validator->getTlds());
 
 Unit Testing
 ------------
