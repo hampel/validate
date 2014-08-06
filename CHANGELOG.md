@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.0.4 (2014-08-07)
+------------------
+
+* updated tlds-alpha-by-domain.txt to most recent version
+
 2.0.3 (2014-06-06)
 ------------------
 
