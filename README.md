@@ -15,7 +15,7 @@ Require the package via Composer in your `composer.json`
 	:::json
     {
         "require": {
-            "hampel/validate": "2.0.*"
+            "hampel/validate": "~2.0"
         }
     }
 
@@ -23,6 +23,12 @@ Run Composer to update the new requirement.
 
 	:::bash
     $ composer update
+
+Note that running the `install`, `update` or `dump-autoload` Composer commands will generate a new version of the
+`tlds.php` file using the latest data from IANA. You can also run the `pre-autoload-dump` script directly:
+
+    :::bash
+    $ composer run-script pre-autoload-dump
 
 Usage
 -----
@@ -127,14 +133,17 @@ itself)
 You can use `$validator->getTlds()` to return a complete list of valid TLDs from
 http://data.iana.org/TLD/tlds-alpha-by-domain.txt
 
-Pass true to this function to use a locally stored copy of the file, which may not contain the most up-to-date
-information, but avoids network traffic
+By default, this function uses a locally cached version of the data, which may not contain the most up-to-date
+information, but avoids network traffic. Pass true to this function to fetch the latest version from the internet.
+
+*Note that in v2.1, this behaviour has been reversed from prior versions. Previously, the default was to fetch the
+TLD list from the internet. From v2.1, the default is to use the locally cached version by default.*
 
 	:::php
     // the following evaluate to true
     $validator->isDomain("example.travel", $validator->getTlds());
 
-    // use local copy of TLD file
+    // use the latest version of the TLD file
     $validator->isDomain("example.travel", $validator->getTlds(true));
 
 	// Simplified Chinese!!
