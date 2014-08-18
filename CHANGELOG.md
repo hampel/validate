@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+2.1.0 (2014-08-18)
+------------------
+
+* convert to psr-4 autoloading; added phpunit back in to require-dev in composer.json
+* new script to generate the local TLD list - invokeable via Composer
+* modified default behaviour of getTlds to use local version by default - uses new pre-built file rather than parsing
+downloaded text file
+
 2.0.5 (2014-08-18)
 ------------------
 
