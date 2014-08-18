@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.1.1 (2014-08-18)
+------------------
+
+* added additional check to ignore any badly formatted strings from the downloaded TLD source file for security reasons
+
 2.1.0 (2014-08-18)
 ------------------
 
