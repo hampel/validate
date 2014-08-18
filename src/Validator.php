@@ -1,7 +1,4 @@
 <?php namespace Hampel\Validate;
-/**
- * 
- */
 
 class Validator
 {
@@ -77,7 +74,7 @@ class Validator
 	 */
 	public function isDomain($value, array $tlds = array())
 	{
-		if (!preg_match("/\b((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}\b/ix", $value)) return false;
+		if (!preg_match('/\b((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}\b/ix', $value)) return false;
 
 		if (!empty($tlds))
 		{
