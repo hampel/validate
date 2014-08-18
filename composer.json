@@ -34,5 +34,8 @@
         "psr-4": {
             "Hampel\\Validate\\": "src/"
         }
-    }
+	},
+	"scripts": {
+		"pre-autoload-dump": "Hampel\\Validate\\ManageTlds::updateTlds"
+	}
 }
