@@ -132,6 +132,7 @@ class Validator
             $tld = trim($tld);
             if (empty($tld)) continue; // skip blank lines
             if (substr($tld, 0, 1) == "#") continue; // skip # comments
+			if (!preg_match('/^(?:[a-z]{2,63}|xn--[a-z0-9]+)$/i', $tld)) continue; // skip any invalid lines
 
             $tlds[] = strtolower($tld);
 		}
