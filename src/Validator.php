@@ -2,6 +2,8 @@
 
 class Validator
 {
+	private static $tlds;
+
 	public function isEmail($value)
 	{
 		$filtered = filter_var($value, FILTER_VALIDATE_EMAIL);
@@ -107,41 +109,44 @@ class Validator
 	/**
 	 * Uses data from http://data.iana.org/TLD/tlds-alpha-by-domain.txt
 	 *
-	 * @param $local_copy_only bool	use the locally stored version of the TLD file, which may not be as up to date, but avoids network traffic
+	 * @param bool $latest	get latest version from http://data.iana.org/TLD/tlds-alpha-by-domain.txt
 	 *
 	 * @return array of TLD strings
 	 */
-	public function getTlds($local_copy_only = false)
+	public function getTlds($latest = false)
 	{
-		$tlds = array();
-		$tld_file = false;
-
-		// if we haven't been told to use the local copy only, try retrieving the TLD file from the web
-		if (!$local_copy_only)
+		if ($latest)
 		{
-			// read from IANA's list of TLDs in machine-readable format
-			$tld_file = file_get_contents('http://data.iana.org/TLD/tlds-alpha-by-domain.txt');
+			// use our local version - faster, but might be a little out of date though
+			return $this->getLocalTlds();
 		}
 
-		// check if we have a valid $tld_file yet, if not, try getting the local copy
-		if ($tld_file === false)
-		{
-			$tld_file = file_get_contents(__DIR__ . '/tlds-alpha-by-domain.txt');
-		}
+		$tld_file = file_get_contents('http://data.iana.org/TLD/tlds-alpha-by-domain.txt');
+        if ($tld_file === false) return $this->getLocalTlds(); // return out local version on failure
 
-		if ($tld_file === false) return $tlds; // return an empty array on failure
+		$tlds[] = array();
 
-		$tld_array = explode("\n", $tld_file);
-		foreach ($tld_array as $tld)
-		{
-			$tld = trim($tld);
-			if (empty($tld)) continue; // skip blank lines
-			if (substr($tld, 0, 1) == "#") continue; // skip # comments
+        $tld_array = explode("\n", $tld_file);
+        foreach ($tld_array as $tld)
+        {
+            $tld = trim($tld);
+            if (empty($tld)) continue; // skip blank lines
+            if (substr($tld, 0, 1) == "#") continue; // skip # comments
 
-			$tlds[] = strtolower($tld);
+            $tlds[] = strtolower($tld);
 		}
 
 		return $tlds;
+	}
+
+	private function getLocalTlds()
+	{
+		if (!isset(static::$tlds))
+		{
+			static::$tlds = require __DIR__ . '/tlds.php';
+		}
+
+		return static::$tlds;
 	}
 }
 

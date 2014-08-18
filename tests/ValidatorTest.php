@@ -121,7 +121,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
 	public function testGetTlds()
 	{
-		$tlds = $this->validator->getTlds(true); // use local copy
+		$tlds = $this->validator->getTlds();
 
 		$this->assertTrue(in_array('com', $tlds));
 		$this->assertTrue(in_array('au', $tlds));
@@ -134,7 +134,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetTldsNetwork()
 	{
-		$tlds = $this->validator->getTlds(); // use network copy
+		$tlds = $this->validator->getTlds(true); // use network copy
 
 		$this->assertTrue(in_array('com', $tlds));
 		$this->assertTrue(in_array('au', $tlds));
