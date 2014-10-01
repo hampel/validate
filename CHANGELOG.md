@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.1.2 (2014-10-02)
+------------------
+
+* updated to latest http://data.iana.org/TLD/tlds-alpha-by-domain.txt
+
 2.1.1 (2014-08-18)
 ------------------
 
