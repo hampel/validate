@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.1.3 (2014-10-02)
+------------------
+
+* logic bugfix where we weren't actually getting the latest TLDs in Validator::getTlds()
+
 2.1.2 (2014-10-02)
 ------------------
 
