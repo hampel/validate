@@ -115,7 +115,7 @@ class Validator
 	 */
 	public function getTlds($latest = false)
 	{
-		if ($latest)
+		if (!$latest)
 		{
 			// use our local version - faster, but might be a little out of date though
 			return $this->getLocalTlds();
