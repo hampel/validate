@@ -26,8 +26,8 @@
 		"phpunit/phpunit": "~4.0"
 	},
     "suggest": {
-		"hampel/validate-laravel": "Extends the Laravel validation service with some of the validation functions from this library",
-		"hampel/tlds": "Provides a simple mechanism for retrieving a list of Top Level Domains directly from IANA (or other sources) plus domain and TLD validation for Laravel"
+		"hampel/validate-laravel": "Extends Laravel validation service with some of the validation functions from this library",
+		"hampel/tlds": "Retrieve TLDs directly from IANA or other sources; extends Laravel validation service with domain name and TLD validation"
     },
     "autoload": {
         "psr-4": {
@@ -36,7 +36,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Hampel\\Validate\\": "src/"
+            "Hampel\\Validate\\": "tests/"
         }
 	}
 }
