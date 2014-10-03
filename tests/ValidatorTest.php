@@ -119,29 +119,6 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 		$this->assertFalse($this->validator->isPublicIp('fd01:db8:0:0:0:ff00:42:8329'));
 	}
 
-	public function testGetTlds()
-	{
-		$tlds = $this->validator->getTlds();
-
-		$this->assertTrue(in_array('com', $tlds));
-		$this->assertTrue(in_array('au', $tlds));
-		$this->assertTrue(in_array('travel', $tlds));
-		$this->assertTrue(in_array('xn--3e0b707e', $tlds));
-	}
-
-	/**
-	 * @group network
-	 */
-	public function testGetTldsNetwork()
-	{
-		$tlds = $this->validator->getTlds(true); // use network copy
-
-		$this->assertTrue(in_array('com', $tlds));
-		$this->assertTrue(in_array('au', $tlds));
-		$this->assertTrue(in_array('travel', $tlds));
-		$this->assertTrue(in_array('xn--3e0b707e', $tlds));
-	}
-
 	public function testisTld()
 	{
 		$tlds = array('com', 'au', 'travel', 'xn--3e0b707e'); // use mock data

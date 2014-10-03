@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+2.2.0 (2014-10-03)
+------------------
+
+* validation functionality has not changed from previous versions, but we have removed the Validator::getTlds() method
+and the ManageTlds class and instead leave it up to the implementer to supply a list of valid TLDs to use in the
+relevant validation functions.
+
 2.1.3 (2014-10-02)
 ------------------
 

@@ -2,8 +2,6 @@
 
 class Validator
 {
-	private static $tlds;
-
 	public function isEmail($value)
 	{
 		$filtered = filter_var($value, FILTER_VALIDATE_EMAIL);
@@ -104,50 +102,6 @@ class Validator
 		if (empty($tld)) return false; // didn't end up with anything usable
 
 		return in_array($tld, $tlds);
-	}
-
-	/**
-	 * Uses data from http://data.iana.org/TLD/tlds-alpha-by-domain.txt
-	 *
-	 * @param bool $latest	get latest version from http://data.iana.org/TLD/tlds-alpha-by-domain.txt
-	 *
-	 * @return array of TLD strings
-	 */
-	public function getTlds($latest = false)
-	{
-		if (!$latest)
-		{
-			// use our local version - faster, but might be a little out of date though
-			return $this->getLocalTlds();
-		}
-
-		$tld_file = file_get_contents('http://data.iana.org/TLD/tlds-alpha-by-domain.txt');
-        if ($tld_file === false) return $this->getLocalTlds(); // return out local version on failure
-
-		$tlds[] = array();
-
-        $tld_array = explode("\n", $tld_file);
-        foreach ($tld_array as $tld)
-        {
-            $tld = trim($tld);
-            if (empty($tld)) continue; // skip blank lines
-            if (substr($tld, 0, 1) == "#") continue; // skip # comments
-			if (!preg_match('/^(?:[a-z]{2,63}|xn--[a-z0-9]+)$/i', $tld)) continue; // skip any invalid lines
-
-            $tlds[] = strtolower($tld);
-		}
-
-		return $tlds;
-	}
-
-	private function getLocalTlds()
-	{
-		if (!isset(static::$tlds))
-		{
-			static::$tlds = require __DIR__ . '/tlds.php';
-		}
-
-		return static::$tlds;
 	}
 }
 

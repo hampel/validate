@@ -15,7 +15,7 @@ Require the package via Composer in your `composer.json`
 	:::json
     {
         "require": {
-            "hampel/validate": "~2.0"
+            "hampel/validate": "~2.2"
         }
     }
 
@@ -24,11 +24,19 @@ Run Composer to update the new requirement.
 	:::bash
     $ composer update
 
-Note that running the `install`, `update` or `dump-autoload` Composer commands will generate a new version of the
-`tlds.php` file using the latest data from IANA. You can also run the `pre-autoload-dump` script directly:
+Notes
+-----
 
-    :::bash
-    $ composer run-script pre-autoload-dump
+Version 2.2 of this library removes the Validator::getTlds() method and the ManageTlds class. We leave it up to the
+implementer to source their own list of valid TLDs.
+
+If using Laravel, we recommend installing the "hampel/tlds" package which uses this package and also supplies a simple
+mechanism for retrieving (and optionally caching) the TLD list directly from IANA or other sources. The TLDs package
+also extends the Laravel validation service with additional rules for validating domain names and TLDs.
+
+Again, if using Laravel, we also recommend installing the "hampel/validate-laravel" package which extends the Laravel
+validation service with additional rules based on the validation rules in this package (excluding the TLD validation
+provided by "hampel/tlds".
 
 Usage
 -----
@@ -129,27 +137,3 @@ itself)
     $validator->isDomain('---.com', $tlds)); // false, validates both domain and TLD
     $validator->isDomain('foo', $tlds)); // false
     $validator->isDomain('example.foo', $tlds)); // false
-
-You can use `$validator->getTlds()` to return a complete list of valid TLDs from
-http://data.iana.org/TLD/tlds-alpha-by-domain.txt
-
-By default, this function uses a locally cached version of the data, which may not contain the most up-to-date
-information, but avoids network traffic. Pass true to this function to fetch the latest version from the internet.
-
-*Note that in v2.1, this behaviour has been reversed from prior versions. Previously, the default was to fetch the
-TLD list from the internet. From v2.1, the default is to use the locally cached version by default.*
-
-	:::php
-    // the following evaluate to true
-    $validator->isDomain("example.travel", $validator->getTlds());
-
-    // use the latest version of the TLD file
-    $validator->isDomain("example.travel", $validator->getTlds(true));
-
-	// Simplified Chinese!!
-    $validator->isDomain("example.xn--3e0b707e", $validator->getTlds());
-
-Unit Testing
-------------
-
-To use local data only and ignore network tests, run: `phpunit --exclude-group network`
