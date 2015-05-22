@@ -104,5 +104,3 @@ class Validator
 		return in_array($tld, $tlds);
 	}
 }
-
-?>
