@@ -3,7 +3,7 @@ Hampel Validator
 
 Simple validator library composer package
 
-By [Simon Hampel](http://hampelgroup.com/).
+By [Simon Hampel](mailto:simon@hampelgroup.com).
 
 Installation
 ------------
