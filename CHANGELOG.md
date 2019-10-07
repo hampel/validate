@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.2.3 (2019-10-07)
+------------------
+
+* implement PHPUnit v8 (no changes in library functionality)
+
 2.2.2 (2019-01-22)
 ------------------
 
