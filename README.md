@@ -15,7 +15,7 @@ Require the package via Composer in your `composer.json`
 	:::json
     {
         "require": {
-            "hampel/validate": "~2.2"
+            "hampel/validate": "^2.2"
         }
     }
 
