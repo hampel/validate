@@ -75,16 +75,19 @@ class ValidatorTest extends TestCase
 
 	public function testIsPublicIpv6()
 	{
-		$this->assertTrue($this->validator->isPublicIpv6('2001:db8:0:0:0:ff00:42:8329'));
-		$this->assertTrue($this->validator->isPublicIpv6('2001:db8::ff00:42:8329'));
-		$this->assertTrue($this->validator->isPublicIpv6('0000:0000:0000:0000:0000:0000:0000:0001'));
+        $this->assertTrue($this->validator->isPublicIp('1111:2222:3333:4444:5555:6666:7777:8888'));
 
-		$this->assertFalse($this->validator->isPublicIpv6('::1'));
-		$this->assertFalse($this->validator->isPublicIpv6('fd01:db8:0:0:0:ff00:42:8329'));
-		$this->assertFalse($this->validator->isPublicIpv6('foo'));
-		$this->assertFalse($this->validator->isPublicIpv6('0.0.0.0'));
-		$this->assertFalse($this->validator->isPublicIpv6('1.1.1.1'));
-		$this->assertFalse($this->validator->isPublicIpv6('10.0.0.1'));
+        $this->assertFalse($this->validator->isPublicIp('foo'));
+        $this->assertFalse($this->validator->isPublicIp('0.0.0.0'));
+        $this->assertFalse($this->validator->isPublicIp('1.0.0.256'));
+        $this->assertFalse($this->validator->isPublicIp('10.0.0.1'));
+        $this->assertFalse($this->validator->isPublicIp('192.168.0.1'));
+        $this->assertFalse($this->validator->isPublicIp('::1')); // reserved
+        $this->assertFalse($this->validator->isPublicIp('0000:0000:0000:0000:0000:0000:0000:0001')); // reserved
+        $this->assertFalse($this->validator->isPublicIp('fd01:db8:0:0:0:ff00:42:8329')); // private range
+        $this->assertFalse($this->validator->isPublicIp('2001:db8:0:0:0:ff00:42:8329')); // reserved for documentation
+        $this->assertFalse($this->validator->isPublicIp('2001:db8::ff00:42:8329')); // reserved for documentation
+
 	}
 
 	public function testIsIp()
@@ -108,17 +111,19 @@ class ValidatorTest extends TestCase
 	{
 		$this->assertTrue($this->validator->isPublicIp('1.1.1.1'));
 		$this->assertTrue($this->validator->isPublicIp('74.125.237.2'));
-		$this->assertTrue($this->validator->isPublicIp('2001:db8:0:0:0:ff00:42:8329'));
-		$this->assertTrue($this->validator->isPublicIp('2001:db8::ff00:42:8329'));
-		$this->assertTrue($this->validator->isPublicIp('0000:0000:0000:0000:0000:0000:0000:0001'));
+
+        $this->assertTrue($this->validator->isPublicIp('1111:2222:3333:4444:5555:6666:7777:8888'));
 
 		$this->assertFalse($this->validator->isPublicIp('foo'));
 		$this->assertFalse($this->validator->isPublicIp('0.0.0.0'));
 		$this->assertFalse($this->validator->isPublicIp('1.0.0.256'));
 		$this->assertFalse($this->validator->isPublicIp('10.0.0.1'));
 		$this->assertFalse($this->validator->isPublicIp('192.168.0.1'));
-		$this->assertFalse($this->validator->isPublicIp('::1'));
-		$this->assertFalse($this->validator->isPublicIp('fd01:db8:0:0:0:ff00:42:8329'));
+		$this->assertFalse($this->validator->isPublicIp('::1')); // reserved
+        $this->assertFalse($this->validator->isPublicIp('0000:0000:0000:0000:0000:0000:0000:0001')); // reserved
+        $this->assertFalse($this->validator->isPublicIp('fd01:db8:0:0:0:ff00:42:8329')); // private range
+        $this->assertFalse($this->validator->isPublicIp('2001:db8:0:0:0:ff00:42:8329')); // reserved for documentation
+        $this->assertFalse($this->validator->isPublicIp('2001:db8::ff00:42:8329')); // reserved for documentation
 	}
 
 	public function testisTld()
