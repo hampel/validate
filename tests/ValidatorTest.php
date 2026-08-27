@@ -190,4 +190,32 @@ class ValidatorTest extends TestCase
 		$this->assertFalse($this->validator->isDomain('0', $tlds));
 	}
 
+
+	public function testAcceptsNonStringValues() : void
+	{
+		// the README and the docblocks say these methods take anything filter_var takes;
+		// failOnDeprecation is what makes the "no deprecation" half of that an assertion
+		$this->assertFalse($this->validator->isDomain(null));
+		$this->assertFalse($this->validator->isDomain(123));
+		$this->assertFalse($this->validator->isDomain(null, array('com')));
+
+		$this->assertFalse($this->validator->isTld(null, array('com')));
+		$this->assertFalse($this->validator->isTld(true, array('com'))); // in_array() used to match this loosely
+		$this->assertFalse($this->validator->isTld(123, array('com')));
+
+		$this->assertFalse($this->validator->isEmail(null));
+		$this->assertFalse($this->validator->isIp(null));
+		$this->assertFalse($this->validator->isPublicIp(null));
+
+		$stringable = new class () {
+			public function __toString() : string
+			{
+				return 'example.com';
+			}
+		};
+
+		$this->assertTrue($this->validator->isDomain($stringable));
+		$this->assertTrue($this->validator->isTld($stringable, array('com')));
+	}
+
 }
