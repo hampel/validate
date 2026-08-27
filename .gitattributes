@@ -5,6 +5,7 @@
 
 # Development files, excluded from the distributed package.
 /.gitattributes export-ignore
+/.github/       export-ignore
 /.gitignore     export-ignore
 /.idea/         export-ignore
 /CLAUDE.md      export-ignore
