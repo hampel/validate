@@ -1,15 +1,15 @@
 {
     "name": "hampel/validate",
     "description": "Simple validator library composer package",
-	"homepage" : "https://bitbucket.org/hampel/validate",
+	"homepage" : "https://github.com/hampel/validate",
 	"authors": [{
 		"name": "Simon Hampel",
 		"email": "simon@hampelgroup.com",
 		"role": "Developer"
 	}],
 	"support": {
-		"issues": "https://bitbucket.org/hampel/validate/issues",
-		"source": "https://bitbucket.org/hampel/validate/src"
+		"issues": "https://github.com/hampel/validate/issues",
+		"source": "https://github.com/hampel/validate"
 	},
 	"keywords": [
 		"validation"
