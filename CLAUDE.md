@@ -51,9 +51,9 @@ cleanup.
 support. Supported versions are a policy decision rather than a preference — do not widen or
 narrow that constraint as incidental cleanup, and never declare a version CI does not exercise.
 
-Tests are one method per public method in `tests/ValidatorTest.php`, sharing the package namespace
-(`autoload-dev` maps `Hampel\Validate\` to `tests/`), so no `use` is needed for the class under
-test. The BC constraint above governs `src/` only — `require-dev` pins `phpunit/phpunit: ^10`,
+Tests are one method per public method in `tests/ValidatorTest.php`, in `Hampel\Validate\Tests`
+so that one PSR-4 prefix does not map to two directories. The BC constraint above governs `src/`
+only — `require-dev` pins `phpunit/phpunit: ^10`,
 which needs PHP 8.1, so the test file is free to use modern syntax and does.
 
 ## PHP version differences in `isPublicIpv6`

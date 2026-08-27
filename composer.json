@@ -33,7 +33,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Hampel\\Validate\\": "tests/"
+            "Hampel\\Validate\\Tests\\": "tests/"
         }
 	}
 }

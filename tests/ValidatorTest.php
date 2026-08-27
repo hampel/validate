@@ -1,5 +1,6 @@
-<?php namespace Hampel\Validate;
+<?php namespace Hampel\Validate\Tests;
 
+use Hampel\Validate\Validator;
 use PHPUnit\Framework\TestCase;
 
 class ValidatorTest extends TestCase
