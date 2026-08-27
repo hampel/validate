@@ -1,0 +1,12 @@
+# LF in the repository and in every working tree, on every platform.
+# This clone is reached from SourceTree on Windows over \\wsl$, where Git for
+# Windows would otherwise check these files out with CRLF endings.
+* text=auto eol=lf
+
+# Development files, excluded from the distributed package.
+/.gitattributes export-ignore
+/.gitignore     export-ignore
+/.idea/         export-ignore
+/CLAUDE.md      export-ignore
+/phpunit.xml    export-ignore
+/tests/         export-ignore
