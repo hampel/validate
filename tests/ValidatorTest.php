@@ -14,14 +14,14 @@ class ValidatorTest extends TestCase
 		$this->validator = new Validator;
 	}
 
-	public function testIsEmail()
+	public function testIsEmail() : void
 	{
 		$this->assertTrue($this->validator->isEmail('foo@gmail.com'));
 		$this->assertFalse($this->validator->isEmail('foo@gmail'));
 		$this->assertFalse($this->validator->isEmail('foo'));
 	}
 
-	public function testIsBool()
+	public function testIsBool() : void
 	{
 		$this->assertTrue($this->validator->isBool(true));
 		$this->assertTrue($this->validator->isBool(1));
@@ -38,7 +38,7 @@ class ValidatorTest extends TestCase
 		$this->assertFalse($this->validator->isBool(2));
 	}
 
-	public function testIsIpv4()
+	public function testIsIpv4() : void
 	{
 		$this->assertTrue($this->validator->isIpv4('0.0.0.0'));
 		$this->assertTrue($this->validator->isIpv4('1.1.1.1'));
@@ -50,7 +50,7 @@ class ValidatorTest extends TestCase
 		$this->assertFalse($this->validator->isIpv4('1.0.0.256'));
 	}
 
-	public function testIsPublicIpv4()
+	public function testIsPublicIpv4() : void
 	{
 		$this->assertTrue($this->validator->isPublicIpv4('1.1.1.1'));
 		$this->assertTrue($this->validator->isPublicIpv4('74.125.237.2'));
@@ -62,7 +62,7 @@ class ValidatorTest extends TestCase
 		$this->assertFalse($this->validator->isPublicIpv4('192.168.0.1'));
 	}
 
-	public function testIsIpv6()
+	public function testIsIpv6() : void
 	{
 		$this->assertTrue($this->validator->isIpv6('2001:0db8:0000:0000:0000:ff00:0042:8329'));
 		$this->assertTrue($this->validator->isIpv6('2001:db8:0:0:0:ff00:42:8329'));
@@ -76,7 +76,7 @@ class ValidatorTest extends TestCase
 		$this->assertFalse($this->validator->isIpv6('10.0.0.1'));
 	}
 
-	public function testIsPublicIpv6()
+	public function testIsPublicIpv6() : void
 	{
 		$this->assertTrue($this->validator->isPublicIpv6('1111:2222:3333:4444:5555:6666:7777:8888'));
 
@@ -93,7 +93,7 @@ class ValidatorTest extends TestCase
 		$this->assertFalse($this->validator->isPublicIpv6('2001:db8::1')); // reserved for documentation
 	}
 
-	public function testIsIp()
+	public function testIsIp() : void
 	{
 		$this->assertTrue($this->validator->isIp('0.0.0.0'));
 		$this->assertTrue($this->validator->isIp('1.1.1.1'));
@@ -110,7 +110,7 @@ class ValidatorTest extends TestCase
 		$this->assertFalse($this->validator->isIp('1.0.0.256'));
 	}
 
-	public function testIsPublicIp()
+	public function testIsPublicIp() : void
 	{
 		$this->assertTrue($this->validator->isPublicIp('1.1.1.1'));
 		$this->assertTrue($this->validator->isPublicIp('74.125.237.2'));
@@ -129,7 +129,7 @@ class ValidatorTest extends TestCase
         $this->assertFalse($this->validator->isPublicIp('2001:db8::ff00:42:8329')); // reserved for documentation
 	}
 
-	public function testisTld()
+	public function testisTld() : void
 	{
 		$tlds = array('com', 'au', 'travel', 'xn--3e0b707e'); // use mock data
 
@@ -156,7 +156,7 @@ class ValidatorTest extends TestCase
 		$this->assertFalse($this->validator->isTld('example.foo', $tlds));
 	}
 
-	public function testIsDomain()
+	public function testIsDomain() : void
 	{
 		$tlds = array('com', 'au', 'travel', 'xn--3e0b707e'); // use mock data
 
