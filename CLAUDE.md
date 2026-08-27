@@ -52,7 +52,8 @@ preference — do not widen or narrow that constraint as incidental cleanup.
 
 Tests are one method per public method in `tests/ValidatorTest.php`, sharing the package namespace
 (`autoload-dev` maps `Hampel\Validate\` to `tests/`), so no `use` is needed for the class under
-test.
+test. The BC constraint above governs `src/` only — `require-dev` pins `phpunit/phpunit: ^10`,
+which needs PHP 8.1, so the test file is free to use modern syntax and does.
 
 ## PHP version differences in `isPublicIpv6`
 
@@ -66,5 +67,4 @@ classification. Both are worth knowing before trusting `filter_var` here:
   The library does **not** normalise this, so `isPublicIpv6('::ffff:8.8.8.8')` still answers
   differently across versions. Left alone deliberately; revisit only with a reason.
 
-The suite passes on 8.1 through 8.5. On 8.2+ it reports one deprecation — `$validator` is assigned
-in `setUp()` without being declared, so it is a dynamic property.
+The suite passes cleanly on 8.1 through 8.5.

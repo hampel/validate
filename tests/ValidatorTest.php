@@ -4,6 +4,8 @@ use PHPUnit\Framework\TestCase;
 
 class ValidatorTest extends TestCase
 {
+	private Validator $validator;
+
 	public function setUp() : void
 	{
 		parent::setUp();
