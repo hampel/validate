@@ -14,9 +14,7 @@
 	"keywords": [
 		"validation"
 	],
-	"license" : [
-		"MIT"
-	],
+	"license" : "MIT",
     "require": {
         "php": ">=8.3",
         "ext-filter": "*"
