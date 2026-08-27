@@ -47,8 +47,9 @@ untyped `$value` parameters that accept anything `filter_var` accepts (including
 which the tests exercise). Adding types to the public signatures is a breaking change, not
 cleanup.
 
-`composer.json` declares `php: >=7.2.0`. Supported versions are a policy decision rather than a
-preference — do not widen or narrow that constraint as incidental cleanup.
+`composer.json` declares `php: >=8.3`, which is every PHP branch still in upstream security
+support. Supported versions are a policy decision rather than a preference — do not widen or
+narrow that constraint as incidental cleanup, and never declare a version CI does not exercise.
 
 Tests are one method per public method in `tests/ValidatorTest.php`, sharing the package namespace
 (`autoload-dev` maps `Hampel\Validate\` to `tests/`), so no `use` is needed for the class under
