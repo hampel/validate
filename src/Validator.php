@@ -41,12 +41,26 @@ class Validator
 		else return true;
 	}
 
+	/**
+	 * is the supplied value a public IPv6 address - ie not private, reserved or otherwise non-routable?
+	 *
+	 * We reject the RFC 3849 documentation range (2001:db8::/32) ourselves: PHP excluded it via
+	 * FILTER_FLAG_NO_RES_RANGE up to 8.2, but 8.3 rebuilt its reserved-range table without it, so
+	 * relying on the filter alone would give a different answer depending on the PHP version.
+	 *
+	 * @param $value	the value to check
+	 *
+	 * @return bool
+	 */
 	public function isPublicIpv6($value)
 	{
 		$filtered = filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 
 		if ($filtered === false) return false;
-		else return true;
+
+		if (strncmp(inet_pton($filtered), "\x20\x01\x0d\xb8", 4) === 0) return false; // 2001:db8::/32
+
+		return true;
 	}
 
 	public function isIp($value)

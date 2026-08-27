@@ -23,11 +23,12 @@ rather than called statically (that changed in 2.0.0, and the old static API is 
 Most methods are thin wrappers over `filter_var()` with the appropriate `FILTER_VALIDATE_*`
 constant, normalising its mixed return to a strict boolean. `isIp`/`isPublicIp` are unions of the
 v4 and v6 variants. **The consequence is that these methods inherit PHP's filter semantics,
-including its bugs** — see the known failures below. Anything that looks like a validation quirk
-should be checked against `filter_var()` directly before it is treated as a bug in this code.
+including its quirks** — see the version differences below. Anything that looks like a validation
+oddity should be checked against `filter_var()` directly before it is treated as a bug in this code.
 
-The two exceptions are `isDomain` (a RegexBuddy internationalised-domain regex, punycode aware)
-and `isTld` (string extraction plus `in_array` against a caller-supplied list).
+The exceptions are `isDomain` (a RegexBuddy internationalised-domain regex, punycode aware),
+`isTld` (string extraction plus `in_array` against a caller-supplied list), and one explicit range
+check in `isPublicIpv6` described below.
 
 **No TLD list is shipped.** 2.2.0 removed `getTlds()` and the `ManageTlds` class deliberately: the
 caller passes an array of lowercase TLDs to `isDomain()`/`isTld()`, or passes nothing and gets
@@ -53,12 +54,17 @@ Tests are one method per public method in `tests/ValidatorTest.php`, sharing the
 (`autoload-dev` maps `Hampel\Validate\` to `tests/`), so no `use` is needed for the class under
 test.
 
-## Known failures
+## PHP version differences in `isPublicIpv6`
 
-Two tests fail on PHP 8.3, both the same cause: the *compressed* documentation address
-`2001:db8::ff00:42:8329` passes `FILTER_FLAG_NO_RES_RANGE` while the expanded
-`2001:db8:0:0:0:ff00:42:8329` is correctly rejected. The library is doing what it always did; PHP's
-reserved-range check does not recognise the compressed form.
+PHP 8.3 rebuilt `FILTER_FLAG_NO_RES_RANGE`'s IPv6 reserved-range table, and two ranges changed
+classification. Both are worth knowing before trusting `filter_var` here:
 
-`ValidatorTest` also triggers a dynamic-property deprecation — `$validator` is assigned in
-`setUp()` without being declared.
+* `2001:db8::/32`, reserved for documentation by RFC 3849, became *public* in 8.3. `isPublicIpv6`
+  rejects it explicitly so the answer does not depend on the PHP version — that check is the one
+  piece of range logic the library owns, and the tests pin it at both edges of the /32.
+* `::ffff:0:0/96`, IPv4-mapped addresses, went the other way: public up to 8.2, rejected from 8.3.
+  The library does **not** normalise this, so `isPublicIpv6('::ffff:8.8.8.8')` still answers
+  differently across versions. Left alone deliberately; revisit only with a reason.
+
+The suite passes on 8.1 through 8.5. On 8.2+ it reports one deprecation — `$validator` is assigned
+in `setUp()` without being declared, so it is a dynamic property.
