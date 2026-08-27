@@ -27,6 +27,17 @@
 		"hampel/validate-laravel": "Extends Laravel validation service with some of the validation functions from this library",
 		"hampel/tlds": "Retrieve TLDs directly from IANA or other sources; extends Laravel validation service with domain name and TLD validation"
     },
+	"config": {
+		"sort-packages": true
+	},
+	"scripts": {
+		"test": "phpunit",
+		"analyse": "phpstan analyse",
+		"check": [
+			"@analyse",
+			"@test"
+		]
+	},
     "autoload": {
         "psr-4": {
             "Hampel\\Validate\\": "src/"
