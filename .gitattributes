@@ -11,5 +11,6 @@
 /.idea/         export-ignore
 /CLAUDE.md      export-ignore
 /phpstan.neon   export-ignore
+/pint.json      export-ignore
 /phpunit.xml    export-ignore
 /tests/         export-ignore
