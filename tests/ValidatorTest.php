@@ -158,6 +158,9 @@ class ValidatorTest extends TestCase
         $this->assertTrue($this->validator->isTld('Example.Com.Au', $tlds));
         $this->assertFalse($this->validator->isTld('NET', $tlds));
 
+        // $tlds is documented as string[] and is compared strictly
+        $this->assertFalse($this->validator->isTld('123', array(123)));
+
         $this->assertFalse($this->validator->isTld('', $tlds));
         $this->assertFalse($this->validator->isTld('', array()));
         $this->assertFalse($this->validator->isTld('foo', $tlds));

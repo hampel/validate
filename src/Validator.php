@@ -194,6 +194,6 @@ class Validator
             return false;
         }
 
-        return in_array($tld, $tlds);
+        return in_array($tld, $tlds, true);
     }
 }

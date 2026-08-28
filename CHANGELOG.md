@@ -13,6 +13,7 @@ PHP version
 * isDomain() no longer triggers a deprecation when passed null
 * isTld() matches case insensitively when passed a bare TLD, as it already did for a full domain
 * isTld() returns false when passed a boolean
+* isTld() compares the supplied TLDs strictly; an array containing non-strings no longer matches
 * removed the suggestion for hampel/validate-laravel
 * added LICENSE.md
 * code reformatted to PSR-12
