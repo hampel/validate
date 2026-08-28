@@ -20,9 +20,10 @@
         "ext-filter": "*"
     },
 	"require-dev": {
-		"phpunit/phpunit": "^12.0",
-        "phpstan/phpstan": "^2.1.22"
-	},
+        "laravel/pint": "^1.30",
+        "phpstan/phpstan": "^2.1.22",
+        "phpunit/phpunit": "^12.0"
+    },
     "suggest": {
 		"hampel/validate-laravel": "Extends Laravel validation service with some of the validation functions from this library",
 		"hampel/tlds": "Retrieve TLDs directly from IANA or other sources; extends Laravel validation service with domain name and TLD validation"
@@ -33,7 +34,10 @@
 	"scripts": {
 		"test": "phpunit",
 		"analyse": "phpstan analyse",
+		"format": "pint",
+		"lint": "pint --test",
 		"check": [
+			"@lint",
 			"@analyse",
 			"@test"
 		]

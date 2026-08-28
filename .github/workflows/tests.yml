@@ -49,6 +49,10 @@ jobs:
     # phpVersion.max to 80500 and no PHPStan before 2.1.22 accepts it - that is
     # a configuration error, not a degraded analysis, so the run dies before
     # reading a line of code.
+    #
+    # Pint is deliberately absent here. It is a formatter whose rule set moves
+    # between patches, so the oldest Pint can reject code the newest accepts -
+    # churn rather than a defect. Linting happens once, in the analyse job.
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -81,11 +85,10 @@ jobs:
 
       - run: composer install --prefer-dist --no-progress
 
+      - run: vendor/bin/pint --test
+
       # Runs once rather than per version: phpstan.neon analyses the whole
-      # 8.3 - 8.5 range in a single pass, whatever PHP it runs on. There is no
-      # formatter step here on purpose - src/Validator.php is deliberately in a
-      # PHP 5-era idiom for backwards compatibility, and a formatter would
-      # rewrite the whole file. See CLAUDE.md.
+      # 8.3 - 8.5 range in a single pass, whatever PHP it runs on.
       - run: vendor/bin/phpstan analyse --no-progress
 
   dependencies:
