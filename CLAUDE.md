@@ -8,9 +8,13 @@ no runtime dependencies, one class.
 ## Commands
 
     composer install
-    vendor/bin/phpunit                                  # whole suite
+    composer check                                      # lint, analyse, test - what CI runs
+    composer test                                       # or: vendor/bin/phpunit
     vendor/bin/phpunit --filter testIsPublicIpv6        # one test
     vendor/bin/phpunit --display-deprecations           # deprecations are hidden by default
+
+`failOnDeprecation` is set, so a deprecation from `src/` fails the suite — but the summary still
+prints `OK, but there were issues!` in yellow. Read the exit status, not the summary.
 
 `composer.lock` is gitignored — this is a library, so the lock file is not authoritative and CI
 would resolve fresh anyway.
@@ -41,20 +45,23 @@ surface is the point of the package.
 
 ## Conventions
 
-Existing code is PHP 5-era in style and stays that way for BC: tabs, `<?php namespace Foo;` on one
-line, no `declare(strict_types=1)`, no parameter or return types, `OR` rather than `||`, and
-untyped `$value` parameters that accept anything `filter_var` accepts (including `null` and `int`,
-which the tests exercise). Adding types to the public signatures is a breaking change, not
-cleanup.
+PSR-12, enforced by Pint (`composer lint` checks, `composer format` fixes). The code was in a
+PHP 5-era idiom — tabs, `<?php namespace Foo;` on one line, `OR` rather than `||` — until 3.0.0
+reformatted it; `.git-blame-ignore-revs` names that commit so `git blame` skips it.
+
+**`$value` parameters are `mixed` on purpose.** They accept anything `filter_var` accepts,
+`null` and `int` included, and the tests exercise that. Narrowing one to `string` would be a
+breaking change dressed up as a type improvement — `isBool(null)` returning true is documented
+behaviour, not an accident.
 
 `composer.json` declares `php: >=8.3`, which is every PHP branch still in upstream security
 support. Supported versions are a policy decision rather than a preference — do not widen or
 narrow that constraint as incidental cleanup, and never declare a version CI does not exercise.
+`phpunit/phpunit` is held at `^12` for the same reason: 13 requires PHP 8.4.1, which would put
+the toolchain above the package's own floor.
 
 Tests are one method per public method in `tests/ValidatorTest.php`, in `Hampel\Validate\Tests`
-so that one PSR-4 prefix does not map to two directories. The BC constraint above governs `src/`
-only — `require-dev` pins `phpunit/phpunit: ^10`,
-which needs PHP 8.1, so the test file is free to use modern syntax and does.
+so that one PSR-4 prefix does not map to two directories.
 
 ## PHP version differences in `isPublicIpv6`
 
