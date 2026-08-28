@@ -4,6 +4,7 @@
 * text=auto eol=lf
 
 # Development files, excluded from the distributed package.
+/.git-blame-ignore-revs export-ignore
 /.gitattributes export-ignore
 /.github/       export-ignore
 /.gitignore     export-ignore

@@ -1,0 +1,8 @@
+# Commits that changed formatting and nothing else. Use with:
+#
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+#
+# GitHub applies this file automatically in its blame view.
+
+# reformat to PSR-12 with Pint
+e6ee6001977068d6fc55a1a1b779cb57ee37265e
