@@ -25,7 +25,6 @@
         "phpunit/phpunit": "^12.0"
     },
     "suggest": {
-		"hampel/validate-laravel": "Extends Laravel validation service with some of the validation functions from this library",
 		"hampel/tlds": "Retrieve TLDs directly from IANA or other sources; extends Laravel validation service with domain name and TLD validation"
     },
 	"config": {

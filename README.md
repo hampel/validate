@@ -158,7 +158,3 @@ If using Laravel, we recommend installing the "hampel/tlds" package, which uses 
 also supplies a simple mechanism for retrieving (and optionally caching) the TLD list directly from
 IANA or other sources. The TLDs package also extends the Laravel validation service with additional
 rules for validating domain names and TLDs.
-
-Again, if using Laravel, we also recommend installing the "hampel/validate-laravel" package, which
-extends the Laravel validation service with additional rules based on the validation rules in this
-package (excluding the TLD validation provided by "hampel/tlds").

@@ -1,6 +1,22 @@
 CHANGELOG
 =========
 
+3.0.0 (2026-08-28)
+------------------
+
+* minimum PHP version is now 8.3
+* ext-filter is now a declared requirement
+* public methods declare parameter and return types - mixed parameters, bool returns
+* subclasses overriding these methods must declare matching return types
+* isPublicIpv6() and isPublicIp() reject the 2001:db8::/32 documentation range on every supported
+PHP version
+* isDomain() no longer triggers a deprecation when passed null
+* isTld() returns false when passed a boolean
+* removed the suggestion for hampel/validate-laravel
+* added LICENSE.md
+* code reformatted to PSR-12
+* implement PHPUnit v12 (no changes in library functionality)
+
 2.2.3 (2019-10-07)
 ------------------
 

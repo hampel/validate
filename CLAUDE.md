@@ -36,9 +36,9 @@ check in `isPublicIpv6` described below.
 
 **No TLD list is shipped.** 2.2.0 removed `getTlds()` and the `ManageTlds` class deliberately: the
 caller passes an array of lowercase TLDs to `isDomain()`/`isTld()`, or passes nothing and gets
-structural validation only. Sourcing that list is `hampel/tlds`' job; Laravel rule bindings are
-`hampel/validate-laravel`'s. Do not reintroduce either concern here — the small dependency-free
-surface is the point of the package.
+structural validation only. Sourcing that list is `hampel/tlds`' job. Do not reintroduce that
+concern here, and do not add Laravel rule bindings — the small dependency-free surface is the
+point of the package.
 
 `isTld` validates only the extension, never the domain: `isTld('---.com', $tlds)` is true while
 `isDomain('---.com', $tlds)` is false. The tests assert this asymmetry on purpose.
