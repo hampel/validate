@@ -158,7 +158,10 @@ class ValidatorTest extends TestCase
         $this->assertTrue($this->validator->isTld('Example.Com.Au', $tlds));
         $this->assertFalse($this->validator->isTld('NET', $tlds));
 
-        // $tlds is documented as string[] and is compared strictly
+        // $tlds is documented as string[] and is compared strictly. The call below breaks that
+        // type on purpose - it is the only way to reach the comparison - so PHPStan is told to
+        // expect it rather than the signature being widened to accommodate a test.
+        // @phpstan-ignore argument.type
         $this->assertFalse($this->validator->isTld('123', array(123)));
 
         $this->assertFalse($this->validator->isTld('', $tlds));
