@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hampel\Validate;
 
 class Validator
@@ -7,11 +9,8 @@ class Validator
     /**
      * is the supplied value a validly formed email address?
      *
-     * @param mixed $value	the value to check
-     *
-     * @return bool
      */
-    public function isEmail($value)
+    public function isEmail(mixed $value): bool
     {
         $filtered = filter_var($value, FILTER_VALIDATE_EMAIL);
 
@@ -26,11 +25,8 @@ class Validator
      * is the supplied value one PHP recognises as a boolean - "1", "true", "on", "yes",
      * "0", "false", "off", "no", "" or null?
      *
-     * @param mixed $value	the value to check
-     *
-     * @return bool
      */
-    public function isBool($value)
+    public function isBool(mixed $value): bool
     {
         $filtered = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
         if (is_null($filtered)) {
@@ -43,11 +39,8 @@ class Validator
     /**
      * is the supplied value an IPv4 address, including private and reserved ranges?
      *
-     * @param mixed $value	the value to check
-     *
-     * @return bool
      */
-    public function isIpv4($value)
+    public function isIpv4(mixed $value): bool
     {
         $filtered = filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
 
@@ -61,11 +54,8 @@ class Validator
     /**
      * is the supplied value an IPv4 address outside the private and reserved ranges?
      *
-     * @param mixed $value	the value to check
-     *
-     * @return bool
      */
-    public function isPublicIpv4($value)
+    public function isPublicIpv4(mixed $value): bool
     {
         $filtered = filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 
@@ -79,11 +69,8 @@ class Validator
     /**
      * is the supplied value an IPv6 address, including private and reserved ranges?
      *
-     * @param mixed $value	the value to check
-     *
-     * @return bool
      */
-    public function isIpv6($value)
+    public function isIpv6(mixed $value): bool
     {
         $filtered = filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
 
@@ -101,11 +88,8 @@ class Validator
      * FILTER_FLAG_NO_RES_RANGE up to 8.2, but 8.3 rebuilt its reserved-range table without it, so
      * relying on the filter alone would give a different answer depending on the PHP version.
      *
-     * @param mixed $value	the value to check
-     *
-     * @return bool
      */
-    public function isPublicIpv6($value)
+    public function isPublicIpv6(mixed $value): bool
     {
         $filtered = filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 
@@ -129,11 +113,8 @@ class Validator
     /**
      * is the supplied value an IPv4 or IPv6 address?
      *
-     * @param mixed $value	the value to check
-     *
-     * @return bool
      */
-    public function isIp($value)
+    public function isIp(mixed $value): bool
     {
         return $this->isIpv4($value) or $this->isIpv6($value);
     }
@@ -141,11 +122,8 @@ class Validator
     /**
      * is the supplied value a public IPv4 or IPv6 address?
      *
-     * @param mixed $value	the value to check
-     *
-     * @return bool
      */
-    public function isPublicIp($value)
+    public function isPublicIp(mixed $value): bool
     {
         return $this->isPublicIpv4($value) or $this->isPublicIpv6($value);
     }
@@ -161,9 +139,8 @@ class Validator
      * @param mixed $value			the value to check
      * @param string[] $tlds		optional array of TLDs to validate against (must be lowercase)
      *
-     * @return bool
      */
-    public function isDomain($value, array $tlds = array())
+    public function isDomain(mixed $value, array $tlds = []): bool
     {
         if (!is_scalar($value) and !$value instanceof \Stringable) {
             return false;
@@ -187,9 +164,8 @@ class Validator
      * @param mixed $value			the value to check
      * @param string[] $tlds		array of TLDs to validate against (must be lowercase)
      *
-     * @return bool
      */
-    public function isTld($value, array $tlds)
+    public function isTld(mixed $value, array $tlds): bool
     {
         if (empty($value) or empty($tlds)) {
             return false;
