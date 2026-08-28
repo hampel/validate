@@ -11,6 +11,7 @@ CHANGELOG
 * isPublicIpv6() and isPublicIp() reject the 2001:db8::/32 documentation range on every supported
 PHP version
 * isDomain() no longer triggers a deprecation when passed null
+* isTld() matches case insensitively when passed a bare TLD, as it already did for a full domain
 * isTld() returns false when passed a boolean
 * removed the suggestion for hampel/validate-laravel
 * added LICENSE.md

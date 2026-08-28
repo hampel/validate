@@ -167,28 +167,32 @@ class Validator
      */
     public function isTld(mixed $value, array $tlds): bool
     {
+        // don't bother if no data passed
         if (empty($value) or empty($tlds)) {
             return false;
-        } // don't bother if no data passed
+        }
 
         if (!is_scalar($value) and !$value instanceof \Stringable) {
             return false;
         }
 
-        $value = (string) $value;
+        // domain names are case insensitive, and the supplied TLDs are documented as lowercase
+        $value = strtolower((string) $value);
 
         $position = strrpos($value, ".");
 
         if ($position === false) {
+            // no . found in supplied value - assume it is already a TLD
             $tld = $value;
-        } // no . found in supplied value - assume it is already a TLD
-        else {
-            $tld = substr(strtolower($value), $position + 1);
-        } // extract the TLD from the supplied domain
+        } else {
+            // extract the TLD from the supplied domain
+            $tld = substr($value, $position + 1);
+        }
 
+        // didn't end up with anything usable
         if (empty($tld)) {
             return false;
-        } // didn't end up with anything usable
+        }
 
         return in_array($tld, $tlds);
     }

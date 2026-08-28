@@ -151,6 +151,13 @@ class ValidatorTest extends TestCase
 
         $this->assertTrue($this->validator->isTld('---.com', $tlds)); // true because it doesn't validate domains
 
+        // domain names are case insensitive, whether or not a dot is present
+        $this->assertTrue($this->validator->isTld('COM', $tlds));
+        $this->assertTrue($this->validator->isTld('.COM', $tlds));
+        $this->assertTrue($this->validator->isTld('EXAMPLE.COM', $tlds));
+        $this->assertTrue($this->validator->isTld('Example.Com.Au', $tlds));
+        $this->assertFalse($this->validator->isTld('NET', $tlds));
+
         $this->assertFalse($this->validator->isTld('', $tlds));
         $this->assertFalse($this->validator->isTld('', array()));
         $this->assertFalse($this->validator->isTld('foo', $tlds));
